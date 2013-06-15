@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -17,6 +18,15 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
     <UseIISExpress>false</UseIISExpress>
     <RestorePackages>true</RestorePackages>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +58,6 @@
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>..\..\lib\RavenDB\EmbeddedClient\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\..\lib\RavenDB\EmbeddedClient\Lucene.Net.dll</HintPath>
     </Reference>
@@ -58,41 +65,20 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Abstractions">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2375\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Embedded.2.0.2375\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2375\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Database.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Database.2.0.2375\lib\net40\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Http">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Munin">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Munin.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Esent">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Storage.Esent.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Managed">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Raven.Storage.Managed.dll</HintPath>
-    </Reference>
-    <Reference Include="Spatial.Net">
-      <HintPath>..\..\lib\RavenDB\EmbeddedClient\Spatial.Net.dll</HintPath>
-    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-    </Reference>
-    <Reference Include="System.Web.WebPages" />
-    <Reference Include="System.Web.Helpers" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -102,6 +88,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -201,11 +188,19 @@
   <ItemGroup>
     <Content Include="Views\Account\ManageRoles.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildExtensionsPath32>..\..\tools\MSBuild.MSVS\</MSBuildExtensionsPath32>
   </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
