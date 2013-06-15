@@ -35,6 +35,16 @@ namespace RavenDBMembership.Provider
                 status = MembershipCreateStatus.InvalidEmail;
                 return null;
             }
+            if (GetUser(username, false) != null)
+            {
+                status = MembershipCreateStatus.DuplicateUserName;
+                return null;
+            }
+            if (GetUserNameByEmail(email) != null)
+            {
+                status = MembershipCreateStatus.DuplicateUserName;
+                return null;
+            }
             if (password.Length < this.MinRequiredPasswordLength)
             {
                 status = MembershipCreateStatus.InvalidPassword;

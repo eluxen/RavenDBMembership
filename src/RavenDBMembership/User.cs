@@ -12,6 +12,8 @@ namespace RavenDBMembership
 		public string Username { get; set; }
 		public string PasswordHash { get; set; }
 		public string PasswordSalt { get; set; }
+        public bool IsApproved { get; set; }
+        public object ProviderKey { get; set; }
 		public string FullName { get; set; }
 		public string Email { get; set; }
 		public DateTime DateCreated { get; set; }

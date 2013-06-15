@@ -54,7 +54,7 @@ namespace RavenDBMembership.Tests
 				Assert.Equal("martijn", membershipUser.UserName);
 			}
 		}
-		[Fact(Skip="Not supported")]
+		[Fact]
 		public void CreateNewMembershipUserShouldFailIfUsernameAlreadyUsed()
 		{
 			using (var store = NewInMemoryStore())
@@ -65,12 +65,10 @@ namespace RavenDBMembership.Tests
 				var membershipUser = provider.CreateUser("martijn", "1234ABCD", "martijn@boland.org", null, null, true,
 														 null, out status);
 
-				Assert.Throws<MembershipCreateUserException>(delegate
-				{
-					provider.CreateUser("martijn", "1234ABCD", "martijn@boland.org", null, null, true, null, out status);
-				});
+				var user= provider.CreateUser("martijn", "1234ABCD", "martijn@boland.org", null, null, true, null, out status);
 
 				Assert.Equal(MembershipCreateStatus.DuplicateUserName, status);
+                Assert.Null(user);
 			}
 		}
 

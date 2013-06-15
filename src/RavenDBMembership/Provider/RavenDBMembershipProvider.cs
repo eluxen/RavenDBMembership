@@ -121,7 +121,7 @@ namespace RavenDBMembership.Provider
 
                     status = MembershipCreateStatus.Success;
 
-                    return new MembershipUser(_providerName, username, user.Id, email, null, null, true, false, user.DateCreated,
+                    return new MembershipUser(_providerName, username, user.ProviderKey, email, null, null, isApproved, false, user.DateCreated,
                         new DateTime(1900, 1, 1), new DateTime(1900, 1, 1), DateTime.Now, new DateTime(1900, 1, 1));
                 }
                 catch (ConcurrencyException e)
@@ -238,7 +238,7 @@ namespace RavenDBMembership.Provider
         {
             using (var session = this.DocumentStore.OpenSession())
             {
-                var user = session.Load<User>(providerUserKey.ToString());
+                var user = session.Query<User>().SingleOrDefault(x => x.ProviderKey == providerUserKey);
                 if (user != null)
                 {
                     return UserToMembershipUser(user);
@@ -367,6 +367,7 @@ namespace RavenDBMembership.Provider
                     }
 
                     dbUser.Username = user.UserName;
+                    dbUser.IsApproved = user.IsApproved;
                     dbUser.Email = user.Email;
                     dbUser.DateCreated = user.CreationDate;
                     dbUser.DateLastLogin = user.LastLoginDate;
@@ -387,9 +388,8 @@ namespace RavenDBMembership.Provider
 
         public override bool ValidateUser(string username, string password)
         {
-            var updateLastLogin = true;
 
-            return CheckPassword(username, password, updateLastLogin);
+            return CheckPassword(username, password, true);
         }
 
         public override bool CheckPassword(string username, string password, bool updateLastLogin)
@@ -445,7 +445,7 @@ namespace RavenDBMembership.Provider
 
         private MembershipUser UserToMembershipUser(User user)
         {
-            return new RavenDBMembershipUser(_providerName, user.Username, user.Id, user.Email, null, null, true, false
+            return new RavenDBMembershipUser(_providerName, user.Username, user.ProviderKey, user.Email, null, null, user.IsApproved, false
                 , user.DateCreated, user.DateLastLogin.HasValue ? user.DateLastLogin.Value : new DateTime(1900, 1, 1), new DateTime(1900, 1, 1), new DateTime(1900, 1, 1), new DateTime(1900, 1, 1));
         }
     }
